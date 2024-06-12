@@ -24,7 +24,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<Transaction> getAll() {
         List<Transaction> listTransactions = new ArrayList<>();
-        Iterable<TransactionEntity> iterableTransactions = transactionRepository.findAll();
+        Iterable<TransactionEntity> iterableTransactions =  transactionRepository.findAll();
         iterableTransactions.forEach(i -> listTransactions.add(transactionEntityToTransaction(i)));
         return listTransactions;
     }
