@@ -15,7 +15,7 @@ public class TransactionType {
 
     private long id;
     private String name;
-    private List<TransactionEntity> transactions;
+    private List<Transaction> transactions;
 
 
 }

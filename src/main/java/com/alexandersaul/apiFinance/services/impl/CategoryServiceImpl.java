@@ -4,6 +4,7 @@ import com.alexandersaul.apiFinance.models.Category;
 import com.alexandersaul.apiFinance.models.CategoryEntity;
 import com.alexandersaul.apiFinance.repositories.CategoryRepository;
 import com.alexandersaul.apiFinance.services.CategoryService;
+import com.alexandersaul.apiFinance.util.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,25 +15,25 @@ import java.util.Optional;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    private final CategoryRepository categoryRepository;
-
     @Autowired
-    public CategoryServiceImpl (final CategoryRepository categoryRepository ) {
-        this.categoryRepository = categoryRepository;
-    }
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private CategoryMapper categoryMapper;
+
 
     @Override
     public List<Category> getAll() {
         List<Category> categories = new ArrayList<>();
         Iterable<CategoryEntity> categoryEntityIterable = categoryRepository.findAll();
-        categoryEntityIterable.forEach((i) -> categories.add(categoryEntityToCategory(i)));
+        categoryEntityIterable.forEach((i) -> categories.add(categoryMapper.toModel(i)));
         return categories;
     }
 
+
     @Override
     public Category create(Category category) {
-        final CategoryEntity newCategoryEntity = categoryRepository.save(categoryToCategoryEntity(category));
-        return categoryEntityToCategory(newCategoryEntity);
+        final CategoryEntity newCategoryEntity = categoryRepository.save(categoryMapper.toEntity(category));
+        return categoryMapper.toModel(newCategoryEntity);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<CategoryEntity> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isPresent()) {
             CategoryEntity categoryEntity = optionalCategory.get();
-            return categoryEntityToCategory(categoryEntity);
+            return categoryMapper.toModel(categoryEntity);
         }
         return null;
     }
@@ -53,8 +54,8 @@ public class CategoryServiceImpl implements CategoryService {
             newCategory.setName(category.getName());
             newCategory.setTransactions(category.getTransactions());
             newCategory.setBudgets(category.getBudgets());
-            CategoryEntity categoryEntity = categoryRepository.save(categoryToCategoryEntity(category));
-            return categoryEntityToCategory(categoryEntity);
+            CategoryEntity categoryEntity = categoryRepository.save(categoryMapper.toEntity(category));
+            return categoryMapper.toModel(categoryEntity);
         }
         return null;
     }
@@ -63,25 +64,5 @@ public class CategoryServiceImpl implements CategoryService {
     public void deleteById(long id) {
         categoryRepository.deleteById(id);
     }
-
-    public CategoryEntity categoryToCategoryEntity (Category category) {
-        return CategoryEntity.builder()
-                .id(category.getId())
-                .name(category.getName())
-                .transactions(category.getTransactions())
-                .budgets(category.getBudgets())
-                .build();
-    }
-
-    public Category categoryEntityToCategory (CategoryEntity categoryEntity) {
-        return Category.builder()
-                .id(categoryEntity.getId())
-                .name(categoryEntity.getName())
-                .transactions(categoryEntity.getTransactions())
-                .budgets(categoryEntity.getBudgets())
-                .build();
-    }
-
-
 
 }

@@ -14,9 +14,9 @@ public class Transaction {
     private long id;
     private double amount;
     private Date date;
-    private PaymentMethodEntity paymentMethod;
-    private UserEntity user;
-    private TransactionTypeEntity transactionType;
-    private CategoryEntity category;
+    private PaymentMethod paymentMethod;
+    private User user;
+    private TransactionType transactionType;
+    private Category category;
 
 }

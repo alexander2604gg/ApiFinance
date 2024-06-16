@@ -33,5 +33,4 @@ public class TransactionEntity {
     @JoinColumn(name="id_category")
     private CategoryEntity category;
 
-
 }

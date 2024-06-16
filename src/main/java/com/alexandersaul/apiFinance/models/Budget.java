@@ -16,8 +16,8 @@ public class Budget {
     private long id;
     private double amount;
     private Date date;
-    private UserEntity user;
-    private CategoryEntity category;
-    private BudgetTypeEntity budgetType;
+    private User user;
+    private Category category;
+    private BudgetType budgetType;
 
 }

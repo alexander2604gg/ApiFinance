@@ -18,7 +18,7 @@ public class User {
     private String secondName;
     private String email;
     private String password;
-    private List<TransactionEntity> transactions;
-    private List<BudgetEntity> budgets;
+    private List<Transaction> transactions;
+    private List<Budget> budgets;
 
 }

@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "BudgetsTypesEntity")
+@Table(name = "BudgetsTypes")
 
 public class BudgetTypeEntity {
 

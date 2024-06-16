@@ -4,6 +4,7 @@ import com.alexandersaul.apiFinance.models.Budget;
 import com.alexandersaul.apiFinance.models.BudgetEntity;
 import com.alexandersaul.apiFinance.repositories.BudgetRepository;
 import com.alexandersaul.apiFinance.services.BudgetService;
+import com.alexandersaul.apiFinance.util.BudgetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,25 +15,24 @@ import java.util.Optional;
 @Service
 public class BudgetServiceImpl implements BudgetService {
 
-    private final BudgetRepository budgetRepository;
-
     @Autowired
-    public BudgetServiceImpl(final BudgetRepository budgetRepository ) {
-        this.budgetRepository = budgetRepository;
-    }
+    private BudgetRepository budgetRepository;
+    @Autowired
+    private BudgetMapper budgetMapper;
+
 
     @Override
     public List<Budget> getAll() {
         List<Budget> budgets = new ArrayList<>();
         Iterable<BudgetEntity> budgetEntityIterable = budgetRepository.findAll();
-        budgetEntityIterable.forEach((i)-> budgets.add(budgetEntityToBudget(i)));
+        budgetEntityIterable.forEach((i)-> budgets.add(budgetMapper.toModel(i)));
         return budgets;
     }
 
     @Override
     public Budget create(Budget budget) {
-        final BudgetEntity budgetEntity = budgetRepository.save(budgetToBudgetEntity(budget));
-        return budgetEntityToBudget(budgetEntity);
+        final BudgetEntity budgetEntity = budgetRepository.save(budgetMapper.toEntity(budget));
+        return budgetMapper.toModel(budgetEntity);
     }
 
     @Override
@@ -44,8 +44,8 @@ public class BudgetServiceImpl implements BudgetService {
             newBudget.setUser(budget.getUser());
             newBudget.setCategory(budget.getCategory());
             newBudget.setBudgetType(budget.getBudgetType());
-            BudgetEntity budgetEntity = budgetRepository.save(budgetToBudgetEntity(newBudget));
-            return budgetEntityToBudget(budgetEntity);
+            BudgetEntity budgetEntity = budgetRepository.save(budgetMapper.toEntity(newBudget));
+            return budgetMapper.toModel(budgetEntity);
         }
         return null;
     }
@@ -55,7 +55,7 @@ public class BudgetServiceImpl implements BudgetService {
         Optional<BudgetEntity> budgetEntityOptional = budgetRepository.findById(id);
         if(budgetEntityOptional.isPresent()){
             BudgetEntity budgetEntity = budgetEntityOptional.get();
-            return budgetEntityToBudget(budgetEntity);
+            return budgetMapper.toModel(budgetEntity);
         }
         return null;
     }
@@ -64,27 +64,5 @@ public class BudgetServiceImpl implements BudgetService {
     public void deleteById(long id) {
         budgetRepository.deleteById(id);
     }
-
-    public BudgetEntity budgetToBudgetEntity(Budget budget) {
-        return BudgetEntity.builder()
-                .id(budget.getId())
-                .amount(budget.getAmount())
-                .user(budget.getUser())
-                .category(budget.getCategory())
-                .budgetType(budget.getBudgetType())
-                .build();
-    }
-
-    public Budget budgetEntityToBudget (BudgetEntity budgetEntity) {
-        return Budget.builder()
-                .id(budgetEntity.getId())
-                .amount(budgetEntity.getAmount())
-                .user(budgetEntity.getUser())
-                .category(budgetEntity.getCategory())
-                .budgetType(budgetEntity.getBudgetType())
-                .build();
-    }
-
-
 
 }
