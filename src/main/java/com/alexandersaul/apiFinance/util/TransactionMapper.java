@@ -2,49 +2,22 @@ package com.alexandersaul.apiFinance.util;
 
 import com.alexandersaul.apiFinance.models.Transaction;
 import com.alexandersaul.apiFinance.models.TransactionEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
-
-@Component
-public class TransactionMapper {
-
-    @Autowired
-    @Lazy
-    UserMapper userMapper;
-    @Autowired
-    @Lazy
-    PaymentMethodMapper paymentMethodMapper;
-    @Autowired
-    @Lazy
-    CategoryMapper categoryMapper;
-    @Autowired
-    @Lazy
-    TransactionTypeMapper transactionTypeMapper;
-
-    public TransactionEntity toEntity(Transaction transaction) {
-        return TransactionEntity.builder()
-                .id(transaction.getId())
-                .amount(transaction.getAmount())
-                .date(transaction.getDate())
-                .user(transaction.getUser() != null ? userMapper.toEntity(transaction.getUser()) : null)
-                .paymentMethod(transaction.getPaymentMethod() != null ? paymentMethodMapper.toEntity(transaction.getPaymentMethod()) : null)
-                .category(transaction.getCategory() != null ? categoryMapper.toEntity(transaction.getCategory()) : null)
-                .transactionType(transaction.getTransactionType() != null ? transactionTypeMapper.toEntity(transaction.getTransactionType()) : null)
-                .build();
-    }
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 
-    public Transaction toModel(TransactionEntity transactionEntity) {
-        return Transaction.builder()
-                .id(transactionEntity.getId())
-                .amount(transactionEntity.getAmount())
-                .date(transactionEntity.getDate())
-                .user(transactionEntity.getUser() != null ? userMapper.toModel(transactionEntity.getUser()) : null)
-                .paymentMethod(transactionEntity.getPaymentMethod() != null ? paymentMethodMapper.toModel(transactionEntity.getPaymentMethod()) : null)
-                .category(transactionEntity.getCategory() != null ? categoryMapper.toModel(transactionEntity.getCategory()) : null)
-                .transactionType(transactionEntity.getTransactionType() != null ? transactionTypeMapper.toModel(transactionEntity.getTransactionType()) : null)
-                .build();
-    }
+@Mapper(componentModel = "spring")
+public interface TransactionMapper {
+
+    @Mapping(source = "paymentMethod.id", target = "paymentMethodId")
+    @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "transactionType.id", target = "transactionTypeId")
+    @Mapping(source = "category.id", target = "categoryId")
+    Transaction toModel (TransactionEntity transactionEntity);
+    @Mapping(source = "paymentMethodId", target = "paymentMethod.id")
+    @Mapping(source = "userId", target = "user.id")
+    @Mapping(source = "transactionTypeId", target = "transactionType.id")
+    @Mapping(source = "categoryId", target = "category.id")
+    TransactionEntity toEntity (Transaction transaction);
 
 }

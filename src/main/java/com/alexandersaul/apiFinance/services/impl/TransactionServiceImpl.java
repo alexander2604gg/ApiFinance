@@ -33,12 +33,26 @@ public class TransactionServiceImpl implements TransactionService {
         final TransactionEntity transactionEntity = transactionMapper.toEntity(transaction);
         final TransactionEntity savedTransactionEntity = transactionRepository.save(transactionEntity);
         return transactionMapper.toModel(savedTransactionEntity);
+    }
 
+    @Override
+    public Transaction update(long id, Transaction transaction) {
+        Transaction newTransaction = findById(id);
+        if ( newTransaction != null) {
+            newTransaction.setAmount(transaction.getAmount());
+            newTransaction.setDate(transaction.getDate());
+            newTransaction.setPaymentMethodId(transaction.getPaymentMethodId());
+            newTransaction.setUserId(transaction.getUserId());
+            newTransaction.setTransactionTypeId(transaction.getTransactionTypeId());
+            newTransaction.setCategoryId(transaction.getCategoryId());
+            TransactionEntity transactionEntity  = transactionRepository.save(transactionMapper.toEntity(newTransaction));
+            return transactionMapper.toModel(transactionEntity);
+        }
+        return null;
     }
 
     @Override
     public Transaction findById(long id) {
-
         Optional<TransactionEntity> optionalTransaction = transactionRepository.findById(id);
 
         if (optionalTransaction.isPresent()) {
@@ -49,27 +63,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction update(long id, Transaction transaction) {
-        Transaction newTransaction = findById(id);
-        if ( newTransaction != null) {
-            newTransaction.setAmount(transaction.getAmount());
-            newTransaction.setDate(transaction.getDate());
-            newTransaction.setUser(transaction.getUser());
-            newTransaction.setPaymentMethod(transaction.getPaymentMethod());
-            newTransaction.setCategory(transaction.getCategory());
-            newTransaction.setTransactionType(transaction.getTransactionType());
-            TransactionEntity transactionEntity  = transactionRepository.save(transactionMapper.toEntity(newTransaction));
-            return transactionMapper.toModel(transactionEntity);
-        }
-        return null;
-    }
-
-    @Override
     public void deleteById(long id) {
         transactionRepository.deleteById(id);
     }
-
-
-
 
 }

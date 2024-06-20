@@ -25,4 +25,5 @@ public class BudgetTypeServiceImpl implements BudgetTypeService {
         budgetEntityIterable.forEach((i)-> budgetTypes.add(budgetTypeMapper.toModel(i)));
         return budgetTypes;
     }
+
 }

@@ -15,7 +15,5 @@ public class TransactionType {
 
     private long id;
     private String name;
-    private List<Transaction> transactions;
-
 
 }

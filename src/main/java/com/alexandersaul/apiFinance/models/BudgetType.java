@@ -15,6 +15,4 @@ public class BudgetType {
 
     private long id;
     private String name;
-    private List<Budget> budgets;
-
 }

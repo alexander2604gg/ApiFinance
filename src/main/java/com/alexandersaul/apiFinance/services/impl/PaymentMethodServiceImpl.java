@@ -1,4 +1,5 @@
 package com.alexandersaul.apiFinance.services.impl;
+
 import com.alexandersaul.apiFinance.models.PaymentMethod;
 import com.alexandersaul.apiFinance.models.PaymentMethodEntity;
 import com.alexandersaul.apiFinance.repositories.PaymentMethodRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 public class PaymentMethodServiceImpl implements PaymentMethodService {
 
@@ -27,10 +29,8 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Override
     public PaymentMethod create(PaymentMethod paymentMethod) {
-
         PaymentMethodEntity newPaymentMethod = paymentMethodRepository.save(paymentMethodMapper.toEntity(paymentMethod));
         return paymentMethodMapper.toModel(newPaymentMethod);
-
     }
 
     @Override
@@ -39,7 +39,6 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         if(newPaymentMethod!=null){
             newPaymentMethod.setId(paymentMethod.getId());
             newPaymentMethod.setName(paymentMethod.getName());
-            newPaymentMethod.setTransactions(paymentMethod.getTransactions());
             PaymentMethodEntity paymentMethodEntity = paymentMethodRepository.save(paymentMethodMapper.toEntity(newPaymentMethod));
             return paymentMethodMapper.toModel(paymentMethodEntity);
         }
@@ -48,12 +47,12 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Override
     public PaymentMethod findById(long id) {
-         Optional<PaymentMethodEntity> optionalPaymentMethod = paymentMethodRepository.findById(id);
-         if(optionalPaymentMethod.isPresent()){
-             PaymentMethodEntity paymentMethodEntity = optionalPaymentMethod.get();
-             return paymentMethodMapper.toModel(paymentMethodEntity);
-         }
-         return null;
+        Optional<PaymentMethodEntity> optionalPaymentMethod = paymentMethodRepository.findById(id);
+        if(optionalPaymentMethod.isPresent()){
+            PaymentMethodEntity paymentMethodEntity = optionalPaymentMethod.get();
+            return paymentMethodMapper.toModel(paymentMethodEntity);
+        }
+        return null;
     }
 
     @Override

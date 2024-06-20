@@ -1,5 +1,6 @@
 package com.alexandersaul.apiFinance.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,9 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Category {
+
     private long id;
     private String name;
-    private List<Transaction> transactions;
-    private List<Budget> budgets;
+
 
 }

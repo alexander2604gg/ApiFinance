@@ -2,46 +2,29 @@ package com.alexandersaul.apiFinance.util;
 
 import com.alexandersaul.apiFinance.models.Budget;
 import com.alexandersaul.apiFinance.models.BudgetEntity;
-import com.alexandersaul.apiFinance.models.BudgetType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
+import com.alexandersaul.apiFinance.services.BudgetService;
+import org.mapstruct.Context;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
-@Component
-public class BudgetMapper {
+import java.util.ArrayList;
+import java.util.List;
 
-    @Autowired
-    @Lazy
-    private UserMapper userMapper;
-    @Autowired
-    @Lazy
-    private CategoryMapper categoryMapper;
-    @Autowired
-    @Lazy
-    private BudgetTypeMapper budgetTypeMapper;
+@Mapper (componentModel = "spring")
+public interface BudgetMapper {
 
-    public Budget toModel(BudgetEntity budgetEntity) {
-        return Budget.builder()
-                .id(budgetEntity.getId())
-                .date(budgetEntity.getDate())
-                .user(budgetEntity.getUser() != null ? userMapper.toModel(budgetEntity.getUser()) : null)
-                .category(budgetEntity.getCategory() != null ? categoryMapper.toModel(budgetEntity.getCategory()) : null)
-                .budgetType(budgetEntity.getBudgetType() != null ? budgetTypeMapper.toModel(budgetEntity.getBudgetType()) : null)
-                .build();
-    }
-
-    public BudgetEntity toEntity(Budget budget) {
-        return BudgetEntity.builder()
-                .id(budget.getId())
-                .date(budget.getDate())
-                .user(budget.getUser() != null ? userMapper.toEntity(budget.getUser()) : null)
-                .category(budget.getCategory() != null ? categoryMapper.toEntity(budget.getCategory()) : null)
-                .budgetType(budget.getBudgetType() != null ? budgetTypeMapper.toEntity(budget.getBudgetType()) : null)
-                .build();
-    }
-
+    @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "category.id", target = "categoryId")
+    @Mapping(source = "budgetType.id", target = "budgetTypeId")
+    Budget toModel (BudgetEntity budgetEntity);
+    @Mapping(source = "userId", target = "user.id")
+    @Mapping(source = "categoryId", target = "category.id")
+    @Mapping(source = "budgetTypeId", target = "budgetType.id")
+    BudgetEntity toEntity (Budget budget);
 
 
 
 
 }
+

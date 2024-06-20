@@ -20,7 +20,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
 
-
     @Override
     public List<Category> getAll() {
         List<Category> categories = new ArrayList<>();
@@ -29,7 +28,6 @@ public class CategoryServiceImpl implements CategoryService {
         return categories;
     }
 
-
     @Override
     public Category create(Category category) {
         final CategoryEntity newCategoryEntity = categoryRepository.save(categoryMapper.toEntity(category));
@@ -37,24 +35,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category findById(long id) {
-        Optional<CategoryEntity> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isPresent()) {
-            CategoryEntity categoryEntity = optionalCategory.get();
+    public Category update(long id, Category category) {
+        Category newCategory = findById(id);
+        if (newCategory != null){
+            newCategory.setName(category.getName());
+            CategoryEntity categoryEntity = categoryRepository.save(categoryMapper.toEntity(newCategory));
             return categoryMapper.toModel(categoryEntity);
         }
         return null;
     }
 
     @Override
-    public Category update(long id, Category category) {
-        Category newCategory = findById(id);
-        if (newCategory != null){
-            newCategory.setId(category.getId());
-            newCategory.setName(category.getName());
-            newCategory.setTransactions(category.getTransactions());
-            newCategory.setBudgets(category.getBudgets());
-            CategoryEntity categoryEntity = categoryRepository.save(categoryMapper.toEntity(category));
+    public Category findById(long id) {
+        Optional<CategoryEntity> optionalCategory = categoryRepository.findById(id);
+        if (optionalCategory.isPresent()) {
+            CategoryEntity categoryEntity = optionalCategory.get();
             return categoryMapper.toModel(categoryEntity);
         }
         return null;

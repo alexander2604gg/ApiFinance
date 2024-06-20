@@ -20,7 +20,6 @@ public class BudgetServiceImpl implements BudgetService {
     @Autowired
     private BudgetMapper budgetMapper;
 
-
     @Override
     public List<Budget> getAll() {
         List<Budget> budgets = new ArrayList<>();
@@ -41,9 +40,10 @@ public class BudgetServiceImpl implements BudgetService {
         if(newBudget != null){
             newBudget.setId(budget.getId());
             newBudget.setAmount(budget.getAmount());
-            newBudget.setUser(budget.getUser());
-            newBudget.setCategory(budget.getCategory());
-            newBudget.setBudgetType(budget.getBudgetType());
+            newBudget.setDate(budget.getDate());
+            newBudget.setUserId(budget.getUserId());
+            newBudget.setCategoryId(budget.getCategoryId());
+            newBudget.setBudgetTypeId(budget.getBudgetTypeId());
             BudgetEntity budgetEntity = budgetRepository.save(budgetMapper.toEntity(newBudget));
             return budgetMapper.toModel(budgetEntity);
         }
