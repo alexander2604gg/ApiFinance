@@ -1,14 +1,11 @@
 package com.alexandersaul.apiFinance.controllers;
 
-import com.alexandersaul.apiFinance.models.Budget;
 import com.alexandersaul.apiFinance.models.PaymentMethod;
 import com.alexandersaul.apiFinance.services.PaymentMethodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 import java.util.NoSuchElementException;
 
