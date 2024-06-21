@@ -7,10 +7,12 @@ import com.alexandersaul.apiFinance.repositories.BudgetTypeRepository;
 import com.alexandersaul.apiFinance.services.BudgetTypeService;
 import com.alexandersaul.apiFinance.util.BudgetTypeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class BudgetTypeServiceImpl implements BudgetTypeService {
 
     @Autowired
