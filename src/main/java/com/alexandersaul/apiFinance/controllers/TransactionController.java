@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/transaction")
+@RequestMapping("/api/transaction")
 public class TransactionController {
 
     @Autowired

@@ -6,12 +6,13 @@ import com.alexandersaul.apiFinance.repositories.PaymentMethodRepository;
 import com.alexandersaul.apiFinance.services.PaymentMethodService;
 import com.alexandersaul.apiFinance.util.PaymentMethodMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
+@Service
 public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Autowired
@@ -37,7 +38,6 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     public PaymentMethod update(long id, PaymentMethod paymentMethod) {
         PaymentMethod newPaymentMethod = findById(id);
         if(newPaymentMethod!=null){
-            newPaymentMethod.setId(paymentMethod.getId());
             newPaymentMethod.setName(paymentMethod.getName());
             PaymentMethodEntity paymentMethodEntity = paymentMethodRepository.save(paymentMethodMapper.toEntity(newPaymentMethod));
             return paymentMethodMapper.toModel(paymentMethodEntity);
