@@ -15,7 +15,7 @@ public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
-
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/resource")
     public ResponseEntity<List<Transaction>> getAllTransactions () {
         List<Transaction> listTransactions = transactionService.getAll();

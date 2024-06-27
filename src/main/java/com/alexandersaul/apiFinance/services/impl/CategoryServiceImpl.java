@@ -60,4 +60,17 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(id);
     }
 
+    public Category prueba(long id, Category category) {
+        if (category != null){
+            category.setName(agregar("Alexander"));
+            CategoryEntity categoryEntity = categoryMapper.toEntity(category);
+            return categoryMapper.toModel(categoryEntity);
+        }
+        return null;
+    }
+
+    public String agregar (String name) {
+        return name + "xyz";
+    }
+
 }
